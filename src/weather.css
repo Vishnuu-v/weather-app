@@ -1,0 +1,50 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: 80vh;
+    margin: auto;
+    align-items: center;
+    border: solid 1px lightgrey;
+    background-color: #2E335A;
+    border-radius: 25px;
+    margin-top: 30px;
+    color: white;
+    background-color: rgb(41, 152, 243);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+
+.location-input {
+    height: 20px;
+    width: 200px;
+    border: none;
+    margin: auto;
+}
+
+.weather-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.icon {
+    height: 100px;
+    width: 100px;
+}
+
+.container h3 {
+    font-size: 1.5em;
+    font-weight: bolder;
+    text-decoration: underline yellowgreen;
+}
+
+body {
+    background-color: rgb(217, 255, 245);
+}
+
+.condition {
+    font-size: 1.1em;
+}
