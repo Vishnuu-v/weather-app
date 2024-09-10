@@ -1,4 +1,4 @@
-import React from 'react';
+'use client'
 import { FaMapMarkerAlt, FaThermometerHalf, FaCloud } from 'react-icons/fa';
 
 interface WeatherItem {

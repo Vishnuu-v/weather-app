@@ -1,3 +1,5 @@
+'use client'
+
 import axios from "axios";
 
 export const fetchCoordinates = async (city: string) => {
