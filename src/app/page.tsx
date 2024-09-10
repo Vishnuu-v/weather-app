@@ -27,7 +27,7 @@ export default function Home() {
     };
 
     fetchInitialWeather();
-  }, []); 
+  }, [city]); 
 
   const handleFetch = async () => {
     if (!city) return;
