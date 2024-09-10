@@ -5,15 +5,21 @@ import { handleFetchWeather } from '../api/weatherAPI';
 import Header from '@/components/Header';
 import Content from '@/components/Content';
 
+interface WeatherItem {
+  main: {
+    temp: number;
+    humidity: number;
+    pressure: number;
+  };
+  wind: {
+    speed: number;
+  };
+  visibility: number;
+  dt_txt: string;
+}
+
 interface WeatherResponse {
-  list: Array<{
-    main: {
-      temp: number;
-    };
-    weather: Array<{
-      description: string;
-    }>;
-  }>;
+  list: WeatherItem[];
 }
 
 export default function Home() {
