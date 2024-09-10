@@ -22,6 +22,7 @@ interface ContentProps {
   weather: WeatherResponse | null;
   city: string;
   isFahrenheit: boolean;
+  isTomorrow: boolean;
 }
 
 interface TemperatureCardProps {
@@ -33,35 +34,45 @@ interface WeatherCardProps {
   weather: WeatherResponse | null;
   city: string;
   isFahrenheit: boolean;
+  isTomorrow: boolean;
 }
 
 const kelvinToCelsius = (kelvin: number): string => (kelvin - 273.15).toFixed(1);
 const kelvinToFahrenheit = (kelvin: number): string => ((kelvin - 273.15) * 9/5 + 32).toFixed(1);
 
 // Main Component
-const Content: React.FC<ContentProps> = ({ weather, city, isFahrenheit }) => {
+const Content: React.FC<ContentProps> = ({ weather, city, isFahrenheit, isTomorrow }) => {
+  console.log(weather)
   return (
     <div className='flex flex-col w-full px-8 py-4'>
-      <WeatherCard weather={weather} city={city} isFahrenheit={isFahrenheit} />
-      <div className='flex flex-wrap justify-between mt-8 text-center'>
-        {weather && weather.list.slice(0, 4).map((item, index) => {
-          const kelvin = item.main.temp;
-          const temp = isFahrenheit 
+      <WeatherCard weather={weather} city={city} isFahrenheit={isFahrenheit} isTomorrow={isTomorrow} />
+      <div className='flex flex-wrap justify-between mt-8 text-center gap-2'>
+      {weather && weather.list
+          .slice(
+            isTomorrow ? 8 : 0,        
+            isTomorrow ? 12 : 4         
+          )
+          .map((item, index) => {
+            const kelvin = item.main.temp;
+            const temp = isFahrenheit 
               ? kelvinToFahrenheit(kelvin) 
               : kelvinToCelsius(kelvin);
-          const time = item.dt_txt;
-          return (
-            <TemperatureCard key={index} time={time} temp={temp} />
-          );
-        })}
+            const time = item.dt_txt;
+            return (
+              <TemperatureCard key={index} time={time} temp={temp} />
+            );
+          })}
       </div>
     </div>
   );
 };
 
 // Weather Card Component
-const WeatherCard: React.FC<WeatherCardProps> = ({ weather, city, isFahrenheit }) => {
-  const kelvin = weather && weather.list ? weather.list[0].main.temp : 0;
+const WeatherCard: React.FC<WeatherCardProps> = ({ weather, city, isFahrenheit, isTomorrow }) => {
+  const kelvin = isTomorrow
+  ? (weather && weather.list ? weather.list[8].main.temp : 0)
+  : (weather && weather.list ? weather.list[0].main.temp : 0);
+
   const temperatureCelsius = weather && weather.list ? kelvinToCelsius(kelvin) : 'N/A';
   const temperatureFahrenheit = weather && weather.list ? kelvinToFahrenheit(kelvin) : 'N/A';
   const humidity = weather && weather.list ? weather.list[0].main.humidity : 'N/A';
@@ -91,7 +102,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather, city, isFahrenheit }
               </div>
               <div className='text-center'>
                   <div>Visibility</div>
-                  <div>{visibility/1000}KM</div>
+                  <div>{(visibility as number) / 1000} KM</div>
               </div>
               <div className='text-center'>
                   <div>Air Pressure</div>

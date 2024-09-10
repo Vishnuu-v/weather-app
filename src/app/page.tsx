@@ -10,6 +10,7 @@ export default function Home() {
   const [weather, setWeather] = useState<any>(null);  
   const [error, setError] = useState<string>('');
   const [isFahrenheit, setIsFahrenheit] = useState<boolean>(false);
+  const [tomorrow, setTomorrow] = useState(false)
 
   useEffect(() => {
     const fetchInitialWeather = async () => {
@@ -45,16 +46,20 @@ export default function Home() {
 
   return (
     <div className="bg-[#252323] flex flex-col items-center p-2 text-white w-screen h-screen">
+      <div className='flex flex-col lg:w-1/2'>
       <Header 
         isFahrenheit={isFahrenheit} 
         setIsFahrenheit={setIsFahrenheit} 
         city={city}
         setCity={setCity}
         handleFetch={handleFetch}
+        tomorrow={tomorrow}
+        setTomorrow={setTomorrow}
       />
-      <Content weather={weather} isFahrenheit={isFahrenheit} city={city} />
+      <Content weather={weather} isFahrenheit={isFahrenheit} city={city} isTomorrow={tomorrow} />
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
+      </div>
     </div>
   );
 }

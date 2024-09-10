@@ -9,6 +9,8 @@ interface HeaderProps {
   setIsFahrenheit: (value: boolean) => void;
   city: string;
   setCity: (city: string) => void;
+  tomorrow: boolean;
+  setTomorrow: (tomorrow: boolean) => void;
   handleFetch: () => void;
 }
 
@@ -17,7 +19,9 @@ export default function Header({
   setIsFahrenheit,
   city,
   setCity,
-  handleFetch
+  handleFetch,
+  tomorrow,
+  setTomorrow
 }: HeaderProps) {
   const [currentTime, setCurrentTime] = useState<string>("");
 
@@ -35,7 +39,7 @@ export default function Header({
   }, []);
 
   const toggleUnit = () => {
-    setIsFahrenheit(prev => !prev);
+    setIsFahrenheit(!isFahrenheit);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,22 +53,22 @@ export default function Header({
   };
 
   return (
-    <header className="flex flex-col lg:flex-row lg:justify-between w-full">
-      <div className="flex items-end justify-between lg:w-1/2">
+    <header className="flex flex-col w-full">
+      <div className="flex items-end justify-between ">
         <div className="text-3xl">
-          <div>☀️</div>
-          <h1 className="ml-[20%] lg:ml-0">WeatherMe</h1>
+          <div className="lg:ml-[10%]">☀️</div>
+          <h1 className="ml-[20%]">WeatherMe</h1>
         </div>
         <nav className="space-x-4">
-          <a href="#today">Today</a>
-          <a href="#tomorrow">Tomorrow</a>
+          <a href="#today" className={!tomorrow ? 'underline' : ''} onClick={() => setTomorrow(false)} >Today</a>
+          <a href="#tomorrow" className={tomorrow ? 'underline' : ''} onClick={() => setTomorrow(true)}>Tomorrow</a>
           <a href="#monthly">Monthly Forecast</a>
         </nav>
       </div>
 
-      <div className="flex flex-col lg:flex-row items-center lg:items-end lg:w-1/2">
-        <div className="flex flex-col lg:flex-row items-center">
-          <div className="lg:ml-auto mt-4">{currentTime}</div>
+      <div className="flex flex-col  items-center">
+        <div className="flex flex-col items-center">
+          <div className=" mt-4">{currentTime}</div>
           <div className="flex items-center mt-4">
             <span>°C</span>
             <Switch
@@ -75,7 +79,7 @@ export default function Header({
             <span>°F</span>
           </div>
         </div>
-        <div className="relative w-2/3 lg:w-1/3 mt-4 lg:mt-0 mx-auto lg:mx-0 text-black">
+        <div className="relative w-2/3 mt-4  mx-auto text-black">
           <input
             type="text"
             placeholder="Search city..."
