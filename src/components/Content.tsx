@@ -20,8 +20,8 @@ interface WeatherResponse {
 
 interface ContentProps {
   weather: WeatherResponse | null;
-  city: string;
   isFahrenheit: boolean;
+  city: string;
   isTomorrow: boolean;
 }
 
